@@ -1,0 +1,28 @@
+# COMANDOS RÁPIDOS PARA TESTE - SGHSS API
+
+# VERIFICAR SE SERVIDOR ESTÁ RODANDO
+# Invoke-RestMethod -Uri "http://localhost:3000/health"
+
+# LOGIN RÁPIDO ADMIN
+# $admin = Invoke-RestMethod -Uri "http://localhost:3000/api/auth/login" -Method POST -Headers @{"Content-Type"="application/json"} -Body '{"email":"admin@teste.com","senha":"123456"}'; $adminToken = $admin.token
+
+# LOGIN RÁPIDO ENFERMEIRO (após criar)
+# $enfermeiro = Invoke-RestMethod -Uri "http://localhost:3000/api/auth/login" -Method POST -Headers @{"Content-Type"="application/json"} -Body '{"email":"ana.enfermeiro@hospital.com","senha":"123456"}'; $enfermeiroToken = $enfermeiro.token
+
+# CRIAR USUÁRIO ENFERMEIRO
+# Invoke-RestMethod -Uri "http://localhost:3000/api/auth/register" -Method POST -Headers @{"Content-Type"="application/json"} -Body '{"nome":"Ana Enfermeira","email":"ana.enfermeiro@hospital.com","senha":"123456","tipo":"enfermeiro"}'
+
+# CRIAR PACIENTE RÁPIDO
+# $timestamp = Get-Date -Format "HHmmss"; Invoke-RestMethod -Uri "http://localhost:3000/api/pacientes" -Method POST -Headers @{"Authorization"="Bearer $enfermeiroToken"; "Content-Type"="application/json"} -Body "{`"nome`":`"Teste $timestamp`",`"email`":`"teste$timestamp@paciente.com`",`"telefone`":`"(11) 99999-9999`",`"data_nascimento`":`"1990-01-01`",`"cpf`":`"123.456.789-$timestamp.Substring(4,2)`",`"endereco`":`"Rua Teste, 123`",`"cidade`":`"São Paulo`",`"estado`":`"SP`",`"cep`":`"01234-567`",`"convenio`":`"SUS`",`"senha`":`"senha123`"}"
+
+# LISTAR PACIENTES
+# Invoke-RestMethod -Uri "http://localhost:3000/api/pacientes" -Headers @{"Authorization"="Bearer $enfermeiroToken"}
+
+# LISTAR PROFISSIONAIS (ADMIN)
+# Invoke-RestMethod -Uri "http://localhost:3000/api/profissionais" -Headers @{"Authorization"="Bearer $adminToken"}
+
+# INFORMAÇÕES DA API
+# Invoke-RestMethod -Uri "http://localhost:3000/api/info"
+
+# LOGS DE AUDITORIA (ADMIN)
+# Invoke-RestMethod -Uri "http://localhost:3000/api/audit/logs" -Headers @{"Authorization"="Bearer $adminToken"}
