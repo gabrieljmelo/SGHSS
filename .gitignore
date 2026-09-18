@@ -121,3 +121,6 @@ temp/
 
 # Test files
 test-results/
+
+# Command Code local
+.commandcode/
